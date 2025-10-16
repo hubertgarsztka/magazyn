@@ -15,6 +15,13 @@ builder.Services.AddDbContext<AppDb>(opt =>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDb>();
+    db.Database.EnsureCreated();  // na dev
+    DbSeeder.Seed(db);
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
