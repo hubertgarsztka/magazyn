@@ -10,7 +10,12 @@ namespace magazyn.Controllers;
 public class ReceiptsController(AppDb db) : ControllerBase
 {
     // proste PZ: przyjęcie wałków 6 m na wskazaną lokację
-    public record ReceiptDto(string LocationCode, int Pieces, int LengthMm = 6000);
+    public record ReceiptDto(
+        string LocationCode, 
+        int Pieces, int LengthMm = 6000, 
+        string MaterialGrade = "C45",
+        int DiameterMm = 30
+     );
 
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] ReceiptDto dto)
@@ -34,7 +39,9 @@ public class ReceiptsController(AppDb db) : ControllerBase
                 UoM = "SZT",
                 LengthMm = dto.LengthMm,
                 Status = "OK",
-                Barcode = ""           // nadamy po zapisie, gdy będzie Id
+                Barcode = ""  ,         // nadamy po zapisie, gdy będzie Id
+                DiameterMm = dto.DiameterMm,
+                MaterialGrade = dto.MaterialGrade.Trim().ToUpperInvariant()
             };
             db.StockUnits.Add(su);
             await db.SaveChangesAsync();
