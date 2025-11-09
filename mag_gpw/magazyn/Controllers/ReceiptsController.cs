@@ -12,7 +12,8 @@ public class ReceiptsController(AppDb db) : ControllerBase
     // proste PZ: przyjęcie wałków 6 m na wskazaną lokację
     public record ReceiptDto(
         string LocationCode, 
-        int Pieces, int LengthMm = 6000, 
+        int Pieces, 
+        int LengthMm = 6000, 
         string MaterialGrade = "C45",
         int DiameterMm = 30
      );

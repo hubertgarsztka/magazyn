@@ -29,5 +29,8 @@ public class AppDb(DbContextOptions<AppDb> options) : DbContext(options)
         b.Entity<StockUnit>().HasIndex(x => x.DiameterMm);
         b.Entity<StockUnit>().HasIndex(x => x.MaterialGrade);
 
+        b.Entity<ItemVariant>()
+            .HasIndex(v => new { v.ItemId, v.DiameterMm, v.MaterialGrade, v.LengthMm })
+            .IsUnique();
     }
 }
